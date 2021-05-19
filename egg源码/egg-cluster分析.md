@@ -758,7 +758,8 @@ module.exports = function graceful(options) {
             }
         }
 
-        // 2 设置定时函数，在killTimeout秒(默认30s)内执行关闭所以子进程，然后自己退出              
+        // 2 设置定时函数
+        // 如果事件循环中只剩下这一个setTimeout则此定时器不会执行，如果如果事件循环在killTimeout秒中还有其他事件，则该定时器会执行，则在killTimeout秒(默认30s)内执行关闭所有子进程，然后自己退出，
         // make sure we close down within `killTimeout` seconds
         var killtimer = setTimeout(function () {
             console.error('[%s] [graceful:worker:%s] kill timeout, exit now.', Date(), process.pid);
@@ -770,6 +771,10 @@ module.exports = function graceful(options) {
                 });
             }
         }, killTimeout);
+       if (typeof killtimer.unref === 'function') {
+            // only worked on node 0.10+
+           killtimer.unref();
+       }
 
     }
 
