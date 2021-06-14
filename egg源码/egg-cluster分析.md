@@ -283,16 +283,15 @@ gracefulExit({
 
 > egg-cluster/lib/master.js文件
 
-1. 监听到agent-start启动事件，然后cfork启动app
+1. 监听到agent-start启动事件，然后使用cfork包启动app
 2. 监听发给app的消息
-3. 
 
 ```js
 // 监听到agent启动事件后，调用启动app 
 this.once('agent-start', this.forkAppWorkers.bind(this));
 
 forkAppWorkers() {
-    // 使用cfork包启动，底层是cluster包，跟agent进程使用child_process.fork启动有区别
+    // 使用cfork包启动，底层是cluster包，跟agent进程使用child_process.fork启动有点区别
     cfork({
         exec: this.getAppWorkerFile(), // egg-cluster/lib/app_worker.js
         args,
@@ -429,21 +428,19 @@ gracefulExit({
 
 master 启动 agent 和 worker 的方式不一样
 
-1. 启动 agent 使用的是 child_process 的 fork方法
+1. 启动 agent 使用的是 `child_process 的 fork`方法
 
-2. 启动各个 worker 使用的是cfork包，里面使用的是 cluster 的 fork方法
+2. 启动各个 worker 使用的是`cfork`包，里面使用的是 `cluster 的 fork`方法
 
    > 启动多个worker，在 cluster 的预处理下能对同一端口进行监听而不会产生端口冲突，cluster默认使用
    >
    > `round-robin轮询策略`进行负载均衡把收到的 http 请求合理地分配给各个 worker 进行处理
 
-3. cfork包的作用：更方便的使用cluster去fork和restart，记录uncaughtException异常日志
+3. cfork包的作用：更方便的使用cluster去fork和restart，处理`uncaughtException`异常并记录日志
 
 
 
 # 四、平滑重启/优雅退出
-
-
 
 ## 1、agent的平滑重启
 
@@ -472,7 +469,6 @@ onAgentExit() {
     // 执行一些退出工作
     // 如果有app worker是启动状态才启动一个新的agent进程，否则master直接退出
     if (this.isStarted) {
-        // agent进程守护，而worker守护通过 npm cfork 内部实现，master进程不能守护，不然关闭不了
        setTimeout(() => {
             this.logger.info('[master] new agent_worker starting...');
             this.forkAgentWorker();
@@ -497,7 +493,7 @@ onAgentExit() {
 ```js
 // 监听disconnect断连事件
 cluster.on('disconnect', function (worker) {
-    // worker已经终止了，不需要refork
+    // worker已经死了，不需要refork
     // worker has terminated before disconnect
     var isDead = worker.isDead && worker.isDead();
     if (isDead) {
@@ -536,7 +532,6 @@ cluster.on('exit', function (worker, code, signal) {
     cluster.emit('unexpectedExit', worker, code, signal);
 });
 
-
 var limit = options.limit || 60;
 var duration = options.duration || 60000; // 1 min
 /**
@@ -570,7 +565,7 @@ function allow() {
 
 ## 3、agent/app进程优雅退出
 
-主要由graceful-process包实现优雅退出(在程序退出前执行一些逻辑，如释放资源之类的操作)，在进程退出前执行一些前置方法
+主要由`graceful-process包`实现优雅退出(在程序退出前执行一些逻辑，如释放资源之类的操作)，即在进程退出前执行某一些方法
 
 
 
@@ -673,7 +668,7 @@ process.once('disconnect', () => {
 
 
 
-2. `agent` 子进程默认`不会自动退出`，`graceful-process`提供退出功能
+2. `agent` 子进程默认`不会自动退出`，由`graceful-process`提供退出功能
 
 * agent是`child_process.fork`出来的，在master退出后，agent 进程还在运行，但是它的父进程已经不在了，它将会被` init 进程`收养，从而成为`孤儿进程`
 
@@ -812,7 +807,7 @@ cluster.on('disconnect', function (worker) {
 
 ## 2、app出现OOM、系统异常重新fork的逻辑
 
-和未捕获异常发生时不一样，出现未捕获异常还有机会让进程继续执行，而OOM/系统异常等只能够让当前app进程`直接退出`
+和未捕获异常发生时不一样，出现`未捕获异常`还有机会让进程继续执行，而`OOM/系统异常`等只能够让当前app进程`直接退出`
 
 1. `egg-cluster/lib/master.js` 的`cluster.on('exit')`，触发`app-exit`事件进行一些关闭的后续处理
 2. `cfork`包的`cluster.on('exit')` 会重新判断是否去 fork 一个新的 Worker
