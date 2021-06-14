@@ -68,12 +68,14 @@
 
 **源码分析**
 
+> egg-cluster/lib/utils/messenger.js
+
 ```js
 class Messenger {
     // 1. master接收parent的消息
     constructor(master) {
         this.master = master;
-        // 如果node进程使用ipc通道衍生的，可以用process.send方法发消息给父进程，否则process.send是undefined，即child_process.fork衍生的进程
+        // 如果node进程是使用ipc通道衍生的，可以用process.send方法发消息给父进程，如果不是通过ipc通道衍生的，则process.send是undefined
        // 如用egg-bin的dev命令启动
         this.hasParent = !!process.send;
       
@@ -208,7 +210,7 @@ class Messenger extends EventEmitter {
 
 
 
-# 二、agent和app进程通信的整体流程分析
+# 二、例子：agent和app进程通信的整体流程分析
 
 ## 例子：测试agent发送消息给app，即agent调sendToApp方法
 
@@ -392,7 +394,7 @@ class Messenger extends EventEmitter {
 
 ### 总结
 
-即agent发消息给app是通过master中转
+即agent发消息给app是`通过master中转`
 
 * agent发消息给app 
 

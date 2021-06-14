@@ -53,7 +53,7 @@ exports.AgentWorkerLoader = require('./lib/loader').AgentWorkerLoader;
 > egg/lib/egg.js
 
 1. `loadConfig()`加载配置
-2. 实例app和agent之间`messenger通信`的对象
+2. 实例化app和agent之间`messenger通信`的对象
 3. 监听`egg-ready`，触发生命周期`应用启动完成`函数`triggerServerDidReady()`
 4. 注册一些方法
 
@@ -347,10 +347,9 @@ class AppWorkerLoader extends EggLoader {
 
 4. 排序所有插件（过程中会解决依赖等问题）
 
-5. 把插件挂载在加载器loader的plugins属性上
+5. 把插件挂载在加载器loader的`plugins属性`上
 
-
-**注意：**对于同名的插件，在后面读取的插件的各属性会赋值给前面的插件的同名属性，所以相同名的属性会被覆盖
+**注意：**对于同名的插件，在后面读取的插件的各属性会赋值给前面的插件的同名属性，所以相同名的属性会`被覆盖`
 
 
 
@@ -406,8 +405,8 @@ loadPlugin() {
         const plugin = this.allPlugins[name];
 
         // getPluginPath函数找到插件所在的库
-        // （1）先找配置中的path，
-        // （2）否则根据package或name名找到所在的库。
+        // （1）先找配置中的path
+        // （2）否则根据package或name名找到所在的库
         //  其查找规则如下  
         //  -> {APP_PATH}/node_modules  先找项目下的node_modules  
         //    -> {EGG_PATH}/node_modules 再找框架下的node_modules，egg的框架是可以无限继承的，所以框架优先从外往里查找
@@ -449,7 +448,7 @@ loadPlugin() {
 
 1. 扩展内置对象(app/extend/)
 
-   > 如app/extend/application.js- 扩展 Application 类
+   > 如app/extend/application.js-- 扩展 Application 类
 
 2. 插入自定义中间件 
 
@@ -472,7 +471,7 @@ loadPlugin() {
 
    > 先加载config.default文件，后加载config.${this.serverEnv}文件，同名属性会覆盖
 
-2. 按`读取到的所有文件的名字 和 `插件 -> 框架 -> 应用`的顺序，加载配置
+2. 按`读取到的所有文件的名字 `和`插件 -> 框架 -> 应用`的顺序，加载配置
 
    > plugin config.default
    >     framework config.default
@@ -485,7 +484,7 @@ loadPlugin() {
 
 4. 加载中间件的配置到config对象的`coreMiddleware`属性和`appMiddleware`属性中
 
-   > `框架和插件`不支持在 `config.default.js` 中匹配 `middleware`可以在app.js中
+   > `框架和插件`不支持在 `config.default.js` 中匹配 `middleware`，可以在app.js中
    >
    > `app.config.coreMiddleware.unshift('中间件名')`的方式使用中间件
 
@@ -493,7 +492,7 @@ loadPlugin() {
 
    
 
-**注意：**配置有同名属性会进行`覆盖`，数组也是覆盖而不是合并，具体由`extend2`包实现  
+**注意：**配置有同名属性会进行`覆盖`，`数组也是覆盖`而不是合并，具体由`extend2`包实现  
 
 
 
@@ -597,7 +596,6 @@ loadExtend(name, proto) {
 getExtendFilePaths(name) {
     return this.getLoadUnits().map(unit => path.join(unit.path, 'app/extend', name));
 },
- 
 ```
 
 
@@ -612,25 +610,25 @@ getExtendFilePaths(name) {
 
 **以启动app为例，整个启动流程大致为：**
 
-1. egg包中的实例化Application后调用`this.loader.load()`加载，load方法中调用了loadCustomApp方法
+1. egg包中实例化Application后调用`this.loader.load()`加载，load方法中调用了loadCustomApp方法
 
-2. loadCustomApp方法加载`所有加载单元`根目录下的app.js，此时触发`配置文件即将加载`阶段-`configWillLoad`，开始生命周期
+2. loadCustomApp方法加载`所有加载单元`根目录下的`app.js`，此时触发`配置文件即将加载`阶段-`configWillLoad`，开始生命周期
 
    > 遍历所有加载单元自定义启动文件，依次执行configWillLoad方法
 
-3. 触发`文件加载完成`阶段-`configDidLoad`
+3. 触发`配置文件加载完成`阶段--`configDidLoad`
 
    >  遍历所有加载单元自定义启动文件，依次执行configDidLoad方法
    >
    >  如果有beforeClose方法，则注册beforeClose方法
 
-4. 触发`文件加载完成`阶段-`didLoad`
+4. 触发`文件加载完成`阶段--`didLoad`
 
    >遍历所有加载单元自定义启动文件，把`didLoad注册`到`this.loadReady方法`中，然后在`process.nextTick`中执行，执行完则开始生命周期下一阶段。
    >
    >(此处和前面的生命周期执行的区别)
 
-5. 触发`插件启动完毕`阶段-`willReady`
+5. 触发`插件启动完毕`阶段--`willReady`
 
    > 遍历所有加载单元自定义启动文件，把`willReady注册`到`this.bootReady`方法中，然后执行完所有willReady，开始生命周期的下一阶段
    >
@@ -639,7 +637,7 @@ getExtendFilePaths(name) {
    > 说明：在实例化lifecycle时，构造函数中调用`[INIT_READY](){}`就已经注册triggerWillReady方法了，所以在didLoad执行后，就会执行该方法。(注：也可以调用beforeStart注册一些方法在该阶段执行)
 
 
-6. 触发`worker 准备就绪`阶段-`didReady`
+6. 触发`worker 准备就绪`阶段--`didReady`
 
    >遍历自定义启动文件，执行didReady方法
    >
@@ -649,9 +647,9 @@ getExtendFilePaths(name) {
    >
    >所以最后会触发到ready注册的回调，即执行`this.triggerDidReady(err))`开始didRead生命周期
 
-7. 触发`应用启动完成`阶段-`serverDidReady`
+7. 触发`应用启动完成`阶段--`serverDidReady`
 
-   > 在egg-cluster库中触发消息，发送egg-ready事件，`egg/lib/egg.js`接收到egg-ready消息开始serverDidReady生命周期
+   > 在egg-cluster库中触发消息，发送`egg-ready`事件，`egg/lib/egg.js`接收到egg-ready消息开始serverDidReady生命周期
    >
    >  this.messenger.once('egg-ready', () => {
    >
@@ -659,14 +657,14 @@ getExtendFilePaths(name) {
    >
    >  });
 
-8. 触发`应用即将关闭`阶段-`beforeClose`
+8. 触发`应用即将关闭`阶段--`beforeClose`
 
    > 是在configDidLoad阶段才注册的，在 app/agent 实例的 `close` 方法被调用后, 按注册的逆序执行。
    >
    > 一般用于资源的释放操作, 例如 egg用来关闭 logger、删除监听方法等。开发者不应该直接使用 `app.beforeClose`, 而是定义类的形式, 实现 `beforeClose` 方法
    >
    > 
->这个方法不建议在生产环境使用, 可能遇到未执行完就结束进程的问题。
+>这个方法不建议在生产环境使用, 可能遇到`未执行完就结束进程`的问题。
 >
 >在框架的进程关闭处理中是有超时时间的，如果 worker 进程在接收到进程退出信号之后，没有在所规定的时间内退出，将会被强制关闭。
 
@@ -677,7 +675,13 @@ getExtendFilePaths(name) {
 
 **beforeStart方法**
 
-把beforeStart方法注册到`this.loadReady`中，和`willReady`阶段一样。此方法在加载过程中被调用，所有的方法并行执行，一般用来执行一些异步方法，例如检查连接状态等, 比如egg-mysql 就用 `beforeStart` 来检查与 mysql 的连接状态。
+把beforeStart方法注册到`this.loadReady`中，和`willReady`阶段一样。
+
+
+
+此方法在加载过程中被调用，所有的方法`并行执行`，一般用来执行一些异步方法，例如检查连接状态等, 比如egg-mysql 就用 `beforeStart` 来检查与 mysql 的连接状态。
+
+
 
 所有的 `beforeStart` 任务结束后，状态将会进入 `ready` 。不建议执行一些`耗时较长`的方法, 可能会导致`应用启动超时`。插件开发者应使用 `didLoad` 
 
@@ -911,7 +915,7 @@ async close() {
 
 ### 加载流程
 
-1. 获取`所有加载单元`的`app/middleware目录`(插件->框架 ->应用)
+1. 获取`所有加载单元`的`app/middleware目录`(插件-->框架 -->应用)
 
 2. 将`middlewares目录`中的中间件读取到`app.middlewares`属性中
 
@@ -990,9 +994,10 @@ loadMiddleware(opt) {
 ## 6、读取service
 
 1. 依然还是按加载单元的顺序`插件->框架->应用`加载`app/service`目录下的所有文件
+
 2. 把所有service挂载到`context对象`上，即`ctx.service.xxx`
 
-
+   
 
 > egg-core/lib/loader/mixin/service.js
 
@@ -1017,7 +1022,7 @@ loadService(opt) {
 
 **插件和框架没有controller**
 
-所以只需要读取当前项目的`app/controller`文件下的文件，然后注册到`app. controller`对象上
+所以只需要读取当前项目的`app/controller`文件下的文件，然后注册到`app.controller`对象上
 
 
 
