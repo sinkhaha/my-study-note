@@ -44,9 +44,7 @@ exports.AgentWorkerLoader = require('./lib/loader').AgentWorkerLoader;
 * EggApplication继承自`EggCore`
 * EggCore继承自`KoaApplication(即koa)`
 
-
-
-![egg类图](/Users/shuxinlin/Downloads/egg类图.png)
+![](https://gitee.com/sinkhaha/picture/raw/master/img/egg/egg%E7%B1%BB%E5%9B%BE11.png)
 
 ## 2、EggApplicaion类
 
