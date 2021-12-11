@@ -725,10 +725,20 @@ module.exports = (options = {}) => {
 > egg/lib/application.js
 
 1. graceful中使用了`process.on('uncaughtException')`捕获异常（在egg包的application.js文件）
+
 2. 并在回调函数里面`关闭当前正在使用的TCP连接`
+
 3. 添加定时确保杀掉进程，等待一段时间是为了给一定时间处理完当前连接中的请求，默认30s
+
 4. `server.close()`不再接收新的连接，当所有连接关闭后，` 断开与master的IPC通道`，不再接受新的请求
+
 5. 调用`disconnect()`，在关闭了IPC通道后，cfork监听了app进程的disconnect事件，然后根据条件判断是否重新fork一个新的app进程
+
+   
+
+**注意：agent有未捕获异常进程不会退出，只是打印日志**
+
+> /egg/lib/agent.js
 
 
 
