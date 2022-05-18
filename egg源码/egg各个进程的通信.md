@@ -4,7 +4,7 @@
 
 ## 1、 整体通信流程图
 
-![](https://gitee.com/sinkhaha/picture/raw/master/img/egg/%E9%80%9A%E4%BF%A1%E6%B5%81%E7%A8%8B%E5%9B%BE.png)
+![](https://sink-blog-pic.oss-cn-shenzhen.aliyuncs.com/img/egg/%E9%80%9A%E4%BF%A1%E6%B5%81%E7%A8%8B%E5%9B%BE.png)
 
 
 
@@ -409,7 +409,7 @@ class Messenger extends EventEmitter {
 
 # 三、egg中各个事件的触发与接收
 
-![](https://gitee.com/sinkhaha/picture/raw/master/img/egg/egg%E5%90%84%E8%BF%9B%E7%A8%8B%E7%9B%91%E5%90%AC%E7%9A%84%E6%B6%88%E6%81%AF.png)
+![](https://sink-blog-pic.oss-cn-shenzhen.aliyuncs.com/img/egg/egg%E5%90%84%E8%BF%9B%E7%A8%8B%E7%9B%91%E5%90%AC%E7%9A%84%E6%B6%88%E6%81%AF.png)
 
 
 

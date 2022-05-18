@@ -2,7 +2,7 @@
 
 
 
-![](https://gitee.com/sinkhaha/picture/raw/master/img/egg/Egg%E6%95%B4%E4%BD%93%E8%AE%A4%E8%AF%86.png)
+![](https://sink-blog-pic.oss-cn-shenzhen.aliyuncs.com/img/egg/Egg%E6%95%B4%E4%BD%93%E8%AE%A4%E8%AF%86.png)
 
 
 

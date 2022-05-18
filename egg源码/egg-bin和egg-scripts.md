@@ -1,6 +1,6 @@
 # 一、整体
 
-![](https://gitee.com/sinkhaha/picture/raw/master/img/egg/common-bin.png)
+![](https://sink-blog-pic.oss-cn-shenzhen.aliyuncs.com/img/egg/common-bin.png)
 
 # 二、egg-bin(开发者工具)
 

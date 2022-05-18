@@ -44,7 +44,7 @@ exports.AgentWorkerLoader = require('./lib/loader').AgentWorkerLoader;
 * EggApplication继承自`EggCore`
 * EggCore继承自`KoaApplication(即koa)`
 
-![](https://gitee.com/sinkhaha/picture/raw/master/img/egg/egg%E7%B1%BB%E5%9B%BE11.png)
+![](https://sink-blog-pic.oss-cn-shenzhen.aliyuncs.com/img/egg/egg%E7%B1%BB%E5%9B%BE11.png)
 
 ## 2、EggApplicaion类
 
@@ -321,7 +321,7 @@ class AppWorkerLoader extends EggLoader {
 
 # 二、egg加载器各方法实现
 
-![](https://gitee.com/sinkhaha/picture/raw/master/img/egg/egg%E5%8A%A0%E8%BD%BD%E5%99%A8.png)
+![](https://sink-blog-pic.oss-cn-shenzhen.aliyuncs.com/img/egg/egg%E5%8A%A0%E8%BD%BD%E5%99%A8.png)
 
 
 
@@ -602,7 +602,7 @@ getExtendFilePaths(name) {
 
 ### 生命周期函数
 
-![](https://gitee.com/sinkhaha/picture/raw/master/img/egg/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%87%BD%E6%95%B0.png)
+![](https://sink-blog-pic.oss-cn-shenzhen.aliyuncs.com/img/egg/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%87%BD%E6%95%B0.png)
 
 
 
