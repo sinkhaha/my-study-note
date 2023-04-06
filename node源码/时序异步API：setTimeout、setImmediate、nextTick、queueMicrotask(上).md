@@ -531,7 +531,7 @@ function processTimers(now) {
 1. 整体逻辑就是，不断从 `timerListQueue` 优先队列中获取队首元素，首元素也就是最近要过期的那条链表
 2. 判断一下链表的过期时间是否大于当前时间 `now`。如果大于当前时间，说明这个 `Timeout`还不能执行，于是将 `nextExpiry` 用该链表的过期时间替换。接着返回下一次过期时间，注意这里先判断了 `timeoutInfo[0]` 的大小，并以此返回正负的值。实际上在 C++ 侧的 `RunTimers()` 中用的是该值的绝对值最为下一次定时器要触发的时间；正负只是最为一个判断标识，用于判断是否需要对 `libuv` 进行 `ref` 或者 `unref` 操作，以让 Node.js 决定需不需要“及时退出”。总之，这里的逻辑就是如果还有定时器，但是还没到执行时间，则返回 `nextExpiry` 以让 `RunTimers()` 开启下一轮的 ` libuv` 的定时器
 3. 如果链表过期时间小于等于当前时间，则说明在当前状态下，该 `Timeout` 是需要被触发的。由于时间的不精确性，如果时间循环卡了一下，导致一下子过了好几毫秒，而在这之前有好几条链表都会过期，所以就需要在一次 `processTimers` 里面持续执行 `Timeout` 直到获取的 `Timeout` 未过期。所以这里一整套逻辑都是被一个 `while` 所包围
-4. 在执行 `Timeout` 之前，先判断一下当前的 `while` 里面是不是已经执行过至少一个 `Timeout` 了。若未执行过，则直接执行；若已经执行过，则在 Node.js 的语义中已经过了 Tick 了（当前这轮的事件循环），接下去的 `Timeout` 应该在下一个 Tick 执行，所以在这里执行一下 `runNextTicks()` 来让 Node.js 同步模拟出一个 Tick 结束的样子。这个 `runNextTicks()` 里面主要做的事情就是去处理微任务、`Promise` 的 `rejection` 等。毕竟在 Node.js 的语义中，一个 Tick 结束要做的事情有好多
+4. 在执行 `Timeout` 之前，先判断一下当前的 `while` 里面是不是已经执行过至少一个 `Timeout` 了。若未执行过，则直接执行；若已经执行过，则在 Node.js 的语义中已经过了 Tick 了，接下去的 `Timeout` 应该在下一个 Tick 执行，所以在这里执行一下 `runNextTicks()` 来让 Node.js 同步模拟出一个 Tick 结束的样子。这个 `runNextTicks()` 里面主要做的事情就是去处理微任务、`Promise` 的 `rejection` 等。毕竟在 Node.js 的语义中，一个 Tick 结束要做的事情有好多
 5. 到下一个 `Tick` 之后，就可以触发 js 侧的 `Timeout` 了，触发的逻辑是在 `listOnTimeout()` 中
 6. 接下去就开始下一条循环，从链表中再获取下一条 `Timeout` 重复上面的操作。如果链表空了，则退出，退出之后在外层循环实际上就是 Node.js 继续从优先队列中获取再继续判断了
 
@@ -666,7 +666,7 @@ function listOnTimeout(list, now) {
 从 Node.js 中 `Timeout` 的 [ref()](https://nodejs.org/docs/v18.15.0/api/timers.html#timeoutref) 和 [unref()](https://nodejs.org/docs/v18.15.0/api/timers.html#timeoutunref) 的文档可知：
 
 1. 如果 `Timeout` 有被 “引用”，则在没有其他让事件循环 “长存” 的条件下（如文件 I/O 等待、网络事件等待等），Node.js 的执行生命周期会被 `Timeout` 撑着
-2. 如果 `Timeout` 没有被 “引用”，若没有其他 “长存” 条件，Node.js 会执行完当前 `Tick` 后，马上退出，并不会去执行 `Timeout` 
+2. 如果 `Timeout` 没有被 “引用”，若没有其他 “长存” 条件，Node.js 会执行完当前事件循环的阶段后，马上退出，并不会去执行 `Timeout` 
 
 
 在 libuv 中，就有 `uv_ref()` 和 `uv_unref()` 的概念。如果 `libuv` 中，不存在任何被 `ref` 的句柄，就会退出事件循环，所以 `uv_ref()` 是为了撑起其生命周期用的。
