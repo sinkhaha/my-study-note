@@ -1,0 +1,82 @@
+<mxfile host="app.diagrams.net" modified="2023-04-16T11:59:41.000Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="eL6YCw6mr4fORz--OhNZ" version="21.1.8" type="device">
+  <diagram name="第 1 页" id="aAlJMsPQIOgqdsjPberQ">
+    <mxGraphModel dx="954" dy="521" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1" source="0ARzt_ODf6tDb2KWgYRA-1" target="0ARzt_ODf6tDb2KWgYRA-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="0ARzt_ODf6tDb2KWgYRA-1" target="0ARzt_ODf6tDb2KWgYRA-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-1" value="调用 uv__io_start()注册事件&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="590" y="170" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-2" value="往事件循环插入一个 IO 观察者" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="590" y="290" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-4" value="保存 fd 和 IO 观察者的映射关系到 loop-watchers中" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="590" y="380" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1" source="0ARzt_ODf6tDb2KWgYRA-6" target="0ARzt_ODf6tDb2KWgYRA-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-6" value="Poll I/O 阶段处理事件" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="810" y="170" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="0ARzt_ODf6tDb2KWgYRA-7" target="0ARzt_ODf6tDb2KWgYRA-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-7" value="遍历 IO 观察者" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="810" y="290" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="0ARzt_ODf6tDb2KWgYRA-10" target="0ARzt_ODf6tDb2KWgYRA-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-10" value="操作 epoll 修改 fd 对应的事件" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="810" y="380" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="0ARzt_ODf6tDb2KWgYRA-11" target="0ARzt_ODf6tDb2KWgYRA-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-11" value="epoll_wait() 阻塞等待" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="810" y="480" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-15" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="0ARzt_ODf6tDb2KWgYRA-2" target="0ARzt_ODf6tDb2KWgYRA-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="800" y="370" as="sourcePoint" />
+            <mxPoint x="850" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-32" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="0ARzt_ODf6tDb2KWgYRA-18" target="0ARzt_ODf6tDb2KWgYRA-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-18" value="事件触发" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="810" y="580" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="0ARzt_ODf6tDb2KWgYRA-20" target="0ARzt_ODf6tDb2KWgYRA-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-20" value="遍历 epoll 返回的数据结构 epoll_event" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="810" y="680" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="0ARzt_ODf6tDb2KWgYRA-21" target="0ARzt_ODf6tDb2KWgYRA-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-21" value="根据 epoll_event 中的 fd,从loop-watchers 中找到对应的 IO观察者" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="810" y="780" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-22" value="执行回调" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="810" y="880" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0ARzt_ODf6tDb2KWgYRA-28" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="520" y="260" as="sourcePoint" />
+            <mxPoint x="1050" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
