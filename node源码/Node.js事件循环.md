@@ -722,9 +722,11 @@ static int uv__backend_timeout(const uv_loop_t* loop) {
 
 ## 4.4 第4阶段：prepare 准备阶段
 
-`prepare` 准备阶段主要用于处理 `prepare` 准备事件。`prepare` 准备事件与 `idle` 空转事件类似，在空转事件之后执行，与空转事件不同的是，它不阻塞 `Poll I/O`。
+`prepare` 准备阶段主要用于处理 `prepare` 准备事件。`prepare` 准备事件在 `idle` 空转事件之后执行，只有 `prepare` 时，会阻塞在 `Poll I/O`。
 
-> `idle`、`prepare`、`check` 在  `libuv` 事件循环中属于比较简单的阶段，它们的实现是一样的，只是执行时机不一样
+> `idle`、`prepare`、`check` 在  `libuv` 事件循环中属于比较简单的阶段，它们的实现是一样的，但执行时机不一样。
+>
+> 有一点不同的是，当只有 `idle` 任务时，事件循环不会阻塞在 `Poll I/O` 阶段，而当只有 `prepare` 任务 或 `check` 任务时，事件循环会阻塞在  `Poll I/O`  阶段。
 
 
 
@@ -751,7 +753,7 @@ int main() {
     // 启动prepare，prep_cb 为事件循环都会执行的回调函数 
     uv_prepare_start(&prep, prep_cb);
 
-    // 执行事件循环，运行模式为UV_RUN_DEFAULT，在 prepare阶段 会执行 prep_cb 回滴
+    // 执行事件循环，运行模式为UV_RUN_DEFAULT，在 prepare阶段 会执行 prep_cb 回调
     uv_run(uv_default_loop(), UV_RUN_DEFAULT);
 
     return 0;
@@ -762,7 +764,41 @@ int main() {
 2. `uv_prepare_start()`：启动 `prepare` 阶段
 3. `uv_run()`：执行事件循环
 
-> 注意：这个例子执行后不会退出事件循环，因为 `prepare` 事件在执行后，又会重新插入 `prepare` 队列
+> 注意：这个例子执行后不会退出事件循环，会一直阻塞在 `Poll I/O` 阶段。虽然 `prepare` 事件在执行后，又会重新插入 `prepare` 队列，但是此例子执行后，只会打印一次 `“prepare callback”`，这是因为此时只有 `prepare` 任务，事件循环会阻塞在 `Poll I/O` 阶段，所以不会继续执行下去。
+>
+> 如果在该例子的基础上再添加一个定时器，使得不阻塞在 `Poll I/O` 阶段，会发现会一直执行 `prep_cb` 回调，代码如下
+>
+> ```c
+> #include <stdio.h>
+> #include <uv.h> // 引入libuv头文件
+> 
+> void prep_cb(uv_prepare_t *handle) {
+>     printf("prepare callback\n");
+> }
+> 
+> void once_cb(uv_timer_t *handle) {
+>     printf("timer callback\n");
+> }
+> 
+> int main() {
+>     uv_timer_t once;
+>     // 初始化 uv_timer_t 结构体
+>     uv_timer_init(uv_default_loop(), &once);
+>     // 启动定时器，超时后执行 once_cb回调函数，2000为超时时间，1 表示重复执行
+>     uv_timer_start(&once, once_cb, 2000, 1);
+> 
+> 
+>     uv_prepare_t prep;
+>     // 初始化 prepare handle
+>     uv_prepare_init(uv_default_loop(), &prep);
+>     // 启动prepare，prep_cb 为事件循环都会执行的回调函数 
+>     uv_prepare_start(&prep, prep_cb);
+>     // 执行事件循环，运行模式为UV_RUN_DEFAULT，在 prepare阶段 会执行 prep_cb 回滴
+>     uv_run(uv_default_loop(), UV_RUN_DEFAULT);
+>    
+>     return 0;
+> }
+> ```
 
 
 
@@ -1452,7 +1488,7 @@ for (i = 0; i < nfds; i++) {
 
 ## 4.6 第6阶段：check（复查）阶段
 
-`check` 阶段主要处理 复查事件， `setImmediate()` 方法的回调就是在该阶段执行。
+`check` 阶段主要处理 复查事件， `setImmediate()` 方法的回调就是在该阶段执行。只有 `check` 时，会阻塞在 `Poll I/O` 阶段
 
 
 
