@@ -62,17 +62,17 @@
 
 `Node.js` 还集成了很多高性能的 `C/C++ `开源库，比如：
 
-* `http-parser`：是一个用 `C` 实现的 `http` 消息解析器，用于解析 `http` 的请求数据和返回数据
+* `http-parser` 或 `llhttp`：是一个用 `C` 实现的 `http` 消息解析器，用于解析 `http` 的请求数据和返回数据（ `http-parser` 是老版本的依赖，`Node.js v12` 版本后使用 `llhttp`）
 
 * `OpenSSL`：是一个用 `C` 实现的是跨平台的安全套接字层协议库，实现了加密功能：`SSL` 与 `TLS` 协议
-* `lib`：是一个数据的压缩和解压库
+* `zlib`：是一个数据的压缩和解压库
 * `c-ares`：是一个异步 `DNS` 查询和解析库
 
 
 
 **`Node.js` 的组成如下图：**
 
-![](https://sink-blog-pic.oss-cn-shenzhen.aliyuncs.com/img/node_source/%E4%BB%80%E4%B9%88%E6%98%AFNode.js.drawio.png)
+![](https://sink-blog-pic.oss-cn-shenzhen.aliyuncs.com/img/node_source/Node.js%20%E7%9A%84%E7%BB%84%E6%88%90.drawio.png)
 
 
 
@@ -91,5 +91,4 @@
 * [libuv](http://docs.libuv.org/en/v1.x/design.html)
 * [Node.js](https://nodejs.org/en)
 * [Node.js是个啥](https://juejin.cn/book/7196627546253819916/section/7195089399787290635)
-
-
+* [Node.js Dependencies](https://nodejs.org/en/docs/meta/topics/dependencies#llhttp)
