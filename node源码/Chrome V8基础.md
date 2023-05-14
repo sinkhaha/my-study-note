@@ -1,4 +1,4 @@
-# 隔离实例 Isolate
+# 1 隔离实例 Isolate
 
 `Isolate` 是 `V8` 的一个引擎实例，表示 `JavaScript` 执行环境的对象，每个实例内部都有自己的各种状态（如 `JavaScript` 堆内存、垃圾回收等）。
 
@@ -23,7 +23,7 @@ Isolate* isolate = args.GetIsolate();
 
 
 
-# 上下文  Context
+# 2 上下文  Context
 
 `Context` 是 `JavaScript` 执行上下文的一个对象，它包含了当前 `JavaScript` 线程的所有信息（如全局变量、函数调用栈等）。
 
@@ -48,7 +48,7 @@ Local<Context> context = isolate->GetCurrentContext();
 
 
 
-# 脚本 Script
+# 3 脚本 Script
 
 `Script` 是 `JavaScript` 脚本的对象，`Script` 是由 `JavaScript` 代码编译好的可执行对象。`Script` 对象可以被多次执行，而不必重新编译 `JavaScript` 代码。
 
@@ -78,9 +78,9 @@ script.runInThisContext();
 
 
 
-# 常用数据类型
+# 4 常用数据类型
 
-## JavaScript 和 V8 数据类型
+## 4.1 JavaScript 和 V8 数据类型
 
 `JavaScript` 数据类型和 `V8` 数据类型是一一对应的关系，如下
 
@@ -99,7 +99,7 @@ script.runInThisContext();
 
 
 
-## Value 类
+## 4.2 Value 类
 
 `v8::Value` 是所有 `JavaScript` 数据类型的一个总的基类，其他数据类型都是继承这个 `Value`，而 `Value` 继承自 `Data` ；`External` 和 `Object` 和 元数据类型 `Primitive` 也继承自 `Value`。`V8` 中 `Value` 类的继承关系图如下
 
@@ -121,7 +121,7 @@ script.runInThisContext();
 
 
 
-# 句柄
+# 5 句柄
 
 `V8` 中的句柄是指对 `堆内存` 中 `JavaScript` 数据对象的一个引用，用于管理 `JavaScript` 对象。当一个 `JavaScript` 数据对象不再被句柄引用，它会被垃圾回收
 
@@ -156,7 +156,7 @@ script.runInThisContext();
 
 
 
-## 本地句柄
+## 5.1 本地句柄
 
 本地句柄是用于在当前作用域内管理 `JavaScript` 对象的引用，本地句柄存在于栈中
 
@@ -214,7 +214,7 @@ script.runInThisContext();
 
   
 
-## 持久句柄
+## 5.2 持久句柄
 
 持久句柄是用于在多个作用域中管理 `JavaScript` 对象的引用，持久句柄存在于堆中
 
@@ -263,7 +263,7 @@ script.runInThisContext();
 
 
 
-## 待实本地句柄
+## 5.3 待实本地句柄
 
 通过 `MaybeLocal` 类实现，它表示待落实它是不是一个有效的本地句柄。
 
@@ -278,7 +278,7 @@ Local<String> _s = s.ToLocalChecked();
 
 
 
-## 永生句柄
+## 5.4 永生句柄
 
 永生句柄通过 `v8::Eternal` 类实现，它是一种特殊的持久句柄，用于在整个程序运行期间管理 `JavaScript` 对象的引用。
 
@@ -288,7 +288,7 @@ Local<String> _s = s.ToLocalChecked();
 
 
 
-# 句柄作用域
+# 6 句柄作用域
 
 句柄作用域是用于管理 `本地句柄` 的生命周期。句柄作用域可以确保本地句柄不会被垃圾回收器回收，从而避免出现野指针和内存泄漏等问题。
 
@@ -369,7 +369,7 @@ v8::Local<v8::Number> ReturnValue() {
 
 
 
-# 模板
+# 7 模板
 
 `V8`  的模板是指在上下文中 `JavaScript` 对象以及函数的一个模具。可以用一个模板把自己 `C++` 函数 或 数据结构 包裹进 `JavaScript` 的对象中，这样就可以使用 `JavaScript` 代码来对它们进行一些操作了。
 
@@ -377,7 +377,7 @@ v8::Local<v8::Number> ReturnValue() {
 
 
 
-## 函数模板
+## 7.1 函数模板
 
 函数模板在 `V8` 的数据类型是 `FunctionTemplate` ，`FunctionTemplate` 继承自 `Template`，它是一个用于创建 `JavaScript` 函数的模具。
 
@@ -475,7 +475,7 @@ NODE_MODULE(addon, init)
 
 
 
-## 对象模板
+## 7.2 对象模板
 
 对象模板类型在 `V8` 的数据类型是 `ObjectTemplate`，`ObjectTemplate` 也是继承自 `Template`，用于创建对象。
 
@@ -583,7 +583,7 @@ exports->Set(context, String::NewFromUtf8(isolate, "array").ToLocalChecked(), ar
 
 
 
-## 对象模板的内置字段
+## 7.3 对象模板的内置字段
 
 因为 `V8` 中能与 `JavaScript` 代码直接交互的数据类型都是以句柄形式出现的 `V8` 数据类型，如 `v8::String` 、`v8::Number` 等。那我们自定义的 `C++` 数据结构怎样才能被 `JavaScript` 代码使用？此时就需要用到内置字段。
 
@@ -719,7 +719,7 @@ NODE_MODULE(_template, Init)
 
 
 
-## 对象模板的继承
+## 7.4 对象模板的继承
 
 `V8` 的函数模板提供了一个函数 `Inherit()`，可以将一个函数模板继承自另一个函数模板
 
@@ -840,7 +840,7 @@ NODE_MODULE(addon, init)
 
 
 
-## 对象模板的访问器与拦截器
+## 7.5 对象模板的访问器与拦截器
 
 * 访问器：对象指定属性被访问时执行，使用 `SetAccessor`
 
@@ -855,13 +855,13 @@ NODE_MODULE(addon, init)
 
 
 
-# 总结
+# 8 总结
 
 本文主要介绍了 `V8` 的基础概念，如实例、上下文、脚本、常用的数据类型、句柄、句柄作用域、模板等。并通过 `C++` 扩展等方式演示了如何使用这些对象
 
 
 
-# 参考
+# 9 参考
 
 * [Getting started with embedding V8](https://v8.dev/docs/embed)
 * [v8docs](https://v8docs.nodesource.com/node-18.2/)
