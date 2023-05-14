@@ -864,6 +864,6 @@ NODE_MODULE(addon, init)
 # 9 参考
 
 * [Getting started with embedding V8](https://v8.dev/docs/embed)
-* [v8docs](https://v8docs.nodesource.com/node-18.2/)
+* [V8 of Node.js](https://v8docs.nodesource.com/)
 * [Node.js来一打C++扩展](https://book.douban.com/subject/30247892/)
 
