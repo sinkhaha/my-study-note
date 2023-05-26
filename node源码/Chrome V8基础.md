@@ -232,9 +232,9 @@ script.runInThisContext();
 
   > 用 `v8::UniquePersistent<...>` 表示，唯一持久句柄使用 `C++` 的 构造函数 和 析构函数 来管理其底层对象的生命周期 
 
-* 一般持久句柄 `Persistent`（常用）
+* 一般持久句柄 `Persistent`
 
-  > 用 `v8::Persistent<...>` 表示，一般持久句柄可以用它的构造函数创建，但是必须调用 `Persistent::Reset` 显示的清除，因为它不受控于句柄作用域的管控
+  > 用 `v8::Persistent<...>` 表示，一般持久句柄可以用它的构造函数创建，但是必须调用 `Persistent::Reset()` 显示的清除（因为它不受控于句柄作用域的管控）；`Reset()` 函数用于重置句柄对象所引用的 `JavaScript` 对象，具体来说，`Reset()` 函数可以将句柄对象的引用重置为 `undefined` 或 `null`，从而释放句柄对象所持有的 `JavaScript` 对象的引用（不会释放 `JavaScript` 对象本身）。如果 `JavaScript` 对象没有其他引用，那么它会被 `V8` 垃圾回收
 
 * 弱持久句柄
 
