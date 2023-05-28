@@ -406,7 +406,7 @@ HandleWrap::HandleWrap(Environment* env,
 
 
 
-**AsyncWrap 其他函数的定义和实现**
+**HandleWrap 其他函数的定义和实现**
 
 再看一下 `HandleWrap` 类判断和操作 `handle` 状态的函数的实现
 
