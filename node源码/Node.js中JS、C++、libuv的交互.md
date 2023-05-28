@@ -102,7 +102,9 @@ void BaseObject::SetInternalFields(v8::Local<v8::Object> object, void* slot) {
 
 由代码可知，`BaseObject` 类在构造函数中实现了 `JS` 对象和 `C++` 对象（如 `BaseObject`）的互相关联；其本质是 `C++` 对象使用了 `persistent_handle_` 变量存储了 `JS` 对象，`JS` 对象通过 `SetAlignedPointerInInternalField` 使用了 `V8` 的内置字段存储了 `C++` 对象。其关联关系如下图
 
-![](https://sink-blog-pic.oss-cn-shenzhen.aliyuncs.com/img/node_source/BaseObject%E5%AF%B9%E8%B1%A1.png)
+
+
+![](https://sink-blog-pic.oss-cn-shenzhen.aliyuncs.com/img/node_source/BaseObject%E5%AF%B9%E8%B1%A1%E7%BB%93%E6%9E%84%E5%9B%BE.png)
 
 ### 1.1.2 获取 JS 对象：object()
 
@@ -400,7 +402,7 @@ HandleWrap::HandleWrap(Environment* env,
 
 
 
-![](https://sink-blog-pic.oss-cn-shenzhen.aliyuncs.com/img/node_source/HandleWrap%E7%B1%BB1.png)
+![](https://sink-blog-pic.oss-cn-shenzhen.aliyuncs.com/img/node_source/HandleWrap%E7%B1%BB%E7%BB%93%E6%9E%84%E5%9B%BE.png)
 
 
 
@@ -802,7 +804,7 @@ int err = req_wrap->Dispatch(uv_getaddrinfo,
 
 **执行 `Dispatch` 后的结构图如下**
 
-![](https://sink-blog-pic.oss-cn-shenzhen.aliyuncs.com/img/node_source/ReqWrap1.png)
+![](https://sink-blog-pic.oss-cn-shenzhen.aliyuncs.com/img/node_source/ReqWrap.drawio.png)
 
 
 
@@ -1185,7 +1187,7 @@ int uv__tcp_connect(uv_connect_t* req,
 
 
 
-![](https://sink-blog-pic.oss-cn-shenzhen.aliyuncs.com/img/node_source/ConnectWrap.drawio.png)
+![](https://sink-blog-pic.oss-cn-shenzhen.aliyuncs.com/img/node_source/ConnectWrap%E7%BB%93%E6%9E%84%E5%9B%BE.png)
 
 
 
