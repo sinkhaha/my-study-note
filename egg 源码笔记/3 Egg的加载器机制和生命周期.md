@@ -95,7 +95,7 @@ exports.AgentWorkerLoader = require('./lib/loader').AgentWorkerLoader;
 
 
 
-**Egg-core 源码如下**
+**EggCore 源码如下**
 
 > egg-core/lib/egg.js
 
@@ -244,7 +244,7 @@ class EggApplication extends EggCore {
 
 * 因为`Egg` 的配置文件支持合并，把合并后最终起作用的配置记录到文件，当配置有问题时，有助于我们定位问题
 
-2、实现了自己的加载器 `AgentWorkerLoader`，加载器对象是通过 `Symbol.for('egg#loader') ` 变量获取到
+3、实现了自己的加载器 `AgentWorkerLoader`，加载器对象是通过 `Symbol.for('egg#loader') ` 变量获取到
 
 
 
