@@ -1639,7 +1639,7 @@ onSignal(signal) {
 
 **使用 `"Kill -15"`  杀死 `Agent` 进程，触发 `SIGTERM` 信号，处理如下**
 
-1. `Agent` 进程也类似 `App` 进程， `Agent` 进程也使用了 `graceful-process` 包，里面有 `process.once('SIGTERM')` 会监听v`SIGTERM`v信号，所以会执行监听里的回调，最终会调用 `process.exit(0)`，然后触发 `exit` 事件退出
+1. `Agent` 进程也类似 `App` 进程， `Agent` 进程也使用了 `graceful-process` 包，里面有 `process.once('SIGTERM')` 会监听 `SIGTERM` 信号，所以会执行监听里的回调，最终会调用 `process.exit(0)`，然后触发 `exit` 事件退出
 2. 最后触发 `Agent` 进程的 `exit` 事件后，就会执行上面 "`Agent` 退出" 的流程了
 
 
