@@ -648,7 +648,7 @@ module.exports = Object.assign(egg, {
 
 Q：定制完一个框架后，如果这是一个最上层的应用框架，要怎么使用框架呢？
 
-A：以 `egg-sciprts` 启动程序为例，它用的是 `startCluster` 启动 `Master`，可以可以传入 `baseDir` 和 `framework`，`framework` 默认就是 `egg` 包的路径，如果我们传入自己的 `framework` 路径，即传入自己的框架的路径，那 `Egg` 的 `Application` 和 `Agent` 进程启动时就会使用自己这个 `framework` 路径的 `Application` 和 `Agent` 去实例化 `Application` 和 `Agent` 对象。
+A：以 `egg-sciprts` 启动程序为例，它用的是 `startCluster` 启动 `Master`，可以传入 `baseDir` 和 `framework`，`framework` 默认就是 `egg` 包的路径，如果我们传入自己的 `framework` 路径，即传入自己的框架的路径，那 `Egg` 的 `Application` 和 `Agent` 进程启动时就会使用自己这个 `framework` 路径的 `Application` 和 `Agent` 去实例化 `Application` 和 `Agent` 对象。
 
 
 
