@@ -97,12 +97,12 @@
 在父进程中：
 
 1. 发消息给子进程：`子进程.send()`
-2. 接消息来自子进程：`子进程.on('messae')`
+2. 接消息来自子进程：`子进程.on('message')`
 
 在子进程中:
 
 1. 发消息给父进程：`process.send()`
-2. 接消息来自父进程：`process.on('messae')`
+2. 接消息来自父进程：`process.on('message')`
 
 
 
@@ -746,7 +746,7 @@ class Messenger {
 }
 ```
 
-6、`app` 监听 `master` 发给 `app` 进程的消息，即 `egg` 包中 `ipc.js` 问津啊的 `process.on('message', this._onMessage)`，最后在 `app` 进程上使用 `events` 触发事件，这样 `app` 进程使用 `events` 模块监听对应的事件就能接收到消息了，源码如下
+6、`app` 监听 `master` 发给 `app` 进程的消息，即 `egg` 包中 `ipc.js` 的 `process.on('message', this._onMessage)`，最后在 `app` 进程上使用 `events` 触发事件，这样 `app` 进程使用 `events` 模块监听对应的事件就能接收到消息了，源码如下
 
 ```js
 // egg/lib/core/messenger/ipc.js
